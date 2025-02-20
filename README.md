@@ -17,8 +17,9 @@ aws ec2 describe-vpcs --query 'Vpcs[*].VpcId'
 #wylistowanie Ec2 tylko nawy oraz statusy
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Tags[?Key==`Name`].Value | [0], State.Name]' --output table
 
-##wylistowanie Ec2 tylko nawy oraz statusy tylko te z konretnym tagiem
-aws ec2 describe-instances --filters "Name=tag:YourTagKey,Values=YourTagValue" --query "Reservations[*].Instances[*].[Tags[?Key=='Name'].Value | [0], State.Name]" --output table
+
+##wylistowanie Ec2 tylko tych z tagkey='Name'
+aws ec2 describe-instances --filters "Name=tag-key,Values=Name" --query "Reservations[*].Instances[*].[InstanceId, State.Name, Tags[?Key=='Name'].Value | [0]]" --output table
 
 #wylistowanie Ec2
 aws ec2 describe-instances
@@ -39,9 +40,19 @@ Jeżeli poszczególne wyświetlnose security groups rule zawierają
 "IsEgress": false -> to znaczy że to są rule inbound
 "IsEgress": true -> to znaczy że są outbound
 
-====================================================================================================
-#S3
+====================
+#SG
+====================
 
+aws ec2 describe-instances --instance-ids <instance_id> --query "Reservations[*].Instances[*].SecurityGroups[*]" --output table
+
+aws ec2 describe-instance-attribute \
+    --instance-id instance id \
+    --attribute groupSet
+
+====================
+#S3
+====================
 
 #Usuniecie backetu po nazwie
 aws s3api delete-bucket --bucket <nazwa-bucketu>

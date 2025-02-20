@@ -47,8 +47,11 @@ Jeżeli poszczególne wyświetlnose security groups rule zawierają
 aws ec2 describe-instances --instance-ids <instance_id> --query "Reservations[*].Instances[*].SecurityGroups[*]" --output table
 
 aws ec2 describe-instance-attribute \
-    --instance-id instance id \
+    --instance-id i<ec2_id> \
     --attribute groupSet
+
+aws ec2 describe-security-groups \
+  --group-ids <id_sg>
 
 ====================
 #S3

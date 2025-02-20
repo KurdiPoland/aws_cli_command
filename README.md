@@ -17,6 +17,9 @@ aws ec2 describe-vpcs --query 'Vpcs[*].VpcId'
 #wylistowanie Ec2 tylko nawy oraz statusy
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[Tags[?Key==`Name`].Value | [0], State.Name]' --output table
 
+##wylistowanie Ec2 tylko nawy oraz statusy tylko te z konretnym tagiem
+aws ec2 describe-instances --filters "Name=tag:YourTagKey,Values=YourTagValue" --query "Reservations[*].Instances[*].[Tags[?Key=='Name'].Value | [0], State.Name]" --output table
+
 #wylistowanie Ec2
 aws ec2 describe-instances
 
